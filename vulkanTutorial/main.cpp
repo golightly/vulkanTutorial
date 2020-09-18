@@ -4,10 +4,20 @@
 #include <stdexcept>
 #include <cstdlib>
 #include <vector>
-#include <string>
+#include <cstring>
 
 const uint32_t WIDTH = 800;
 const uint32_t HEIGHT = 600;
+
+const std::vector<const char*> validationLayers = {
+	"VK_LAYERS_KHRONOS_validation"
+};
+
+#ifdef NDEBUG
+	const bool enableValidationLayers = false;
+#else
+	const bool enableValidationLayers = true;
+#endif
 
 class HelloTriangleApplication {
 public:
@@ -79,6 +89,20 @@ private:
 			}
 		}
 		return extensionsFound;
+	}
+
+	bool checkValidationLayerSupport() {
+		uint32_t layerCount;
+		vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
+
+		std::vector<VkLayerProperties> availableLayers(layerCount);
+		vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
+
+		for (const char* layerName : validationLayers) {
+
+		}
+
+		return false;
 	}
 
 	void initWindow() {
