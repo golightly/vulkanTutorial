@@ -88,7 +88,6 @@ private:
 	std::vector<VkImageView> swapChainImageViews;
 	VkPipelineLayout pipelineLayout;
 	VkRenderPass renderPass;
-	VkPipelineLayout pipelineLayput;
 	VkPipeline graphicsPipeline;
 
 	void createInstance() {
@@ -312,14 +311,14 @@ private:
 		VkShaderModule vertShaderModule = createShaderModule(vertShaderCode);
 		VkShaderModule fragShaderModule = createShaderModule(fragShaderCode);
 
-		VkPipelineShaderStageCreateInfo vertShaderStageInfo;
+		VkPipelineShaderStageCreateInfo vertShaderStageInfo{};
 		vertShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 		vertShaderStageInfo.stage = VK_SHADER_STAGE_VERTEX_BIT;
 
 		vertShaderStageInfo.module = vertShaderModule;
 		vertShaderStageInfo.pName = "main";
 
-		VkPipelineShaderStageCreateInfo fragShaderStageInfo;
+		VkPipelineShaderStageCreateInfo fragShaderStageInfo{};
 		fragShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 		fragShaderStageInfo.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
 
@@ -395,6 +394,7 @@ private:
 		VkPipelineColorBlendStateCreateInfo colorBlending{};
 		colorBlending.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
 		colorBlending.logicOpEnable = VK_FALSE;
+		colorBlending.logicOp = VK_LOGIC_OP_COPY;
 		colorBlending.attachmentCount = 1;
 		colorBlending.pAttachments = &colorBlendAttachment;
 		colorBlending.blendConstants[0] = 0.0f;
@@ -410,7 +410,7 @@ private:
 		pipelineLayoutInfo.pPushConstantRanges = nullptr;
 
 		if (vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipelineLayout) != VK_SUCCESS) {
-			throw std::runtime_error("failed to create pipeline layour!");
+			throw std::runtime_error("failed to create pipeline layout!");
 		}
 		
 		VkGraphicsPipelineCreateInfo pipelineInfo{};
