@@ -357,11 +357,12 @@ private:
 	}
 
 	void createDescriptorSets() {
+		std::cout << "swap chain images size: " << swapChainImages.size() << std::endl;
 		std::vector<VkDescriptorSetLayout> layouts(swapChainImages.size(), descriptorSetLayout);
 		VkDescriptorSetAllocateInfo allocInfo{};
 		allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
 		allocInfo.descriptorPool = descriptorPool;
-		allocInfo.descriptorSetCount - static_cast<uint32_t>(swapChainImages.size());
+		allocInfo.descriptorSetCount = static_cast<uint32_t>(swapChainImages.size());
 		allocInfo.pSetLayouts = layouts.data();
 
 		descriptorSets.resize(swapChainImages.size());
